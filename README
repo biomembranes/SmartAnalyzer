@@ -1,0 +1,73 @@
+####################################################################################################
+###   SmartAnalyzer for LAMMPS :: Tail Order Analysis (Scd) and Mean Squared Displacement        ### 
+###                                                      					 ###
+###								                                 ###
+###   Funding gratefully provided by Unilever plc and University of Southampton.                 ###
+###                                                                                              ###
+###   All code is "as is" and there is no implied warranty.                                      ###
+###                                                                                              ###
+###   Donovan, Orsi and Essex (2011)		                                                 ###
+###                                                                                              ###
+####################################################################################################
+
+What you need to run
+---------------------
+
+1. A python interpreter (python.org) and a copy of LAMMPS 
+(LAMMPS Molecular Dynamics Simulator: http://lammps.sandia.gov/) 
+
+2. A suitable LAMMPS trajectory created with the following columns: <id type mol x y z ... ...>, 
+only positional information is only used in both routines.
+
+
+File structure
+-------------
+ ___________________________________________________________________________________________________
+|<Input files>            |                                                                         |
+|_________________________|_________________________________________________________________________|
+|cfg.py                   |Initial setup and configuration files. Here you will see all the input   |
+|                         |and output files that are employed, divided into two sections: MSD and   |
+|                         |SCD. Specify beads, reference beads, molecule ranges and timescales      |
+|_________________________|_________________________________________________________________________|
+|tailordering.py          |Performs analysis of tail parameters. Generates output files Szz, 2Sxx   |
+|                         |and Scp                                                                  |
+|_________________________|_________________________________________________________________________|
+|msd.py                   |Compute mean squared displacement of systems in 2D given an initial time |
+|                         |start value.                                                             |
+|_________________________|_________________________________________________________________________|
+|dumplong.trj             |Input trajectory file of the form: <id type mol x y z ... ...>           |
+|_________________________|_________________________________________________________________________|
+|<Generated files>        |                                                                         |
+|_________________________|_________________________________________________________________________|
+|See cfg.py               |Filenames and their preferences are better shown in the cfg file. Files  |
+|                         |will appear in the working directory of the system.                      |
+|_________________________|_________________________________________________________________________|
+
+
+
+Running the analysis
+---------------------
+
+A. Copy the trajectory file into the working directory: <dumplong.trj>.
+B. Run with the command:
+	python msd.py
+	
+	or
+
+	python tailordering.py
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
