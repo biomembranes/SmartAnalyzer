@@ -37,7 +37,7 @@ def computeMSD(filename, opfilename, molstart, molend, atomselect, atomspermol, 
 	w = open(opfilename, "w")
 	molecules = molend - molstart + 1
 	msddict = {}; moldict = {}
-	collecttime = collectdata = gotnumtime = False
+	collecttime = collectdata = gotnumtime = initialized = False
 	for line in f:
 		if "TIMESTEP" in line:
 			collecttime = True
@@ -57,16 +57,17 @@ def computeMSD(filename, opfilename, molstart, molend, atomselect, atomspermol, 
 				if int(line.split()[2]) == int(molecules) and (atomno == atomspermol):
 					collecttime = collectdata = gotnumtime = False
 					print "Finished frame: ", time
-					#raw_input("Press ENTER to exit")
-					if (int(time) == int(startframe)):
+					if (int(time) >= int(startframe)) and not initialized:
+						print "Getting initial configuration..."
 						initCOM = computeCOMxy(moldict, molstart, molend)
 						initdiffdict = computeCOMdiff(molstart, molend, moldict, initCOM)
 						diffdict = computeCOMdiff(molstart, molend, moldict, initCOM)
-						
+						initialized = True
 					else:
 						currCOM = computeCOMxy(moldict, molstart, molend)
 						diffdict = computeCOMdiff(molstart, molend, moldict, currCOM)
 					if (int(time) > int(startframe)):
+						print time, startframe
 						MSD = summationMSD(moldict, diffdict, initdiffdict, molstart, molend)
 						msddict[time] = MSD
 						line = "%f %f\n" % (time, MSD)
@@ -84,90 +85,3 @@ def main():
 if __name__ == "__main__":
 	main()
 
-
-
-	
-"""def Print_Pos_arr(arr_pos):
-	for mol in range(0,int_diffusion_num_molecules):
-		print arr_pos[0][mol], arr_pos[1][mol] 
-	raw_input("Press ENTER to exit")
-	return ""
-
-
-def DoMSD():
-	## Now loop through all the times and generate MSD for all these times and OP
-
-	MSD_array = []
-	FILE_frame = open(cfg.frame_file, "r")
-	line = FILE_frame.readline().strip()
-	count = 0
-	while (line != "</OpenMD>"):    
-		#print line    
-		if (line == "<FrameData>"): 
-			count+=1
-	   		time = float(FILE_frame.readline().split()[1])
-			if (time >= float(cfg.int_start_frame)):
-
-
-
-
-
-
-
-				#print "Time: ", time
-				line = FILE_frame.readline().strip()
-				while (line != "<StuntDoubles>"):
-					line = FILE_frame.readline().strip()
-				#print "Reading data..."
-				mol = 0
-				for my_bead in range(0,cfg.int_beads_per_mol*cfg.int_number_molecules_per_leaflet):
-					line = FILE_frame.readline().strip()
-					my_split = line.split()
-					bead_number = int(my_split[0]) # bead number
-					if ((bead_number % cfg.int_beads_per_mol) == 0):
-						#print "Bead number: ", bead_number
-						
-						if (time == 0 or time == float(cfg.int_start_frame)):
-							arr_initial_pos[0][mol] = float(my_split[2])
-							arr_initial_pos[1][mol] = float(my_split[3])
-							##arr_pos[0][mol] = float(my_split[2])
-							##arr_pos[1][mol] = float(my_split[3])
-							#print "",mol, arr_initial_pos[0][mol], arr_initial_pos[1][mol]
-							## Get initial positions...
-							#raw_input("Press ENTER to exit")
-						else:
-							arr_pos[0][mol] = float(my_split[2])
-							arr_pos[1][mol] = float(my_split[3])
-							#arr_pos[2][mol] = float(my_split[4])
-					
-						mol+=1
-				if (time == 0 or time == float(cfg.int_start_frame)):
-					initial_COM = Calculate_COM(arr_initial_pos)
-					#print "Initial time=0 COM: ", initial_COM
-					arr_initial_diff = Calculate_COM_diff(arr_initial_pos,initial_COM)
-					arr_diff = Calculate_COM_diff(arr_initial_pos,initial_COM)
-			
-					#raw_input("Press ENTER to exit")
-				else:
-					arr_COM = Calculate_COM(arr_pos)
-					#print "COM: ", time, arr_COM
-					arr_diff = Calculate_COM_diff(arr_pos,arr_COM)
-					#Print_Pos_arr(arr_diff)
-					#print "t=: ",time, " COM:= ",arr_COM, " ", arr_diff
-					#print "", arr_pos[0][mol], arr_pos[1][mol]
-
-				MSD = Summation_MSD(arr_initial_diff, arr_diff)
-				time_MSD_pair = [time,MSD]
-				MSD_array.append(time_MSD_pair) 
-				#print "MSD: ", time, MSD
-				#raw_input("Press ENTER to exit")
-		line = FILE_frame.readline().strip()
-	FILE_frame.close()
-
-	#print MSD_array
-
-	FILE_MSD = open(cfg.output_MSD_file, "w")
-	for each in MSD_array:
-		print each
-		FILE_MSD.write(str(each[0]) + "   "+ str(each[1]) + str("\n"))
-	FILE_MSD.close()"""

@@ -2,7 +2,7 @@ import math
 
 ##
 
-inputtraj = "dumplong.trj"
+inputtraj = "dump.trj"
 nummols = 128
 atomspermol = 14
 
@@ -26,10 +26,10 @@ end = 7
 
 ### MSD ###
 
-molstart = 1
+molstart = 1 ### We can select molecules of interest
 molend = 128
 startsteps = 0 ### When to start the MSD from.
-headatom = 1 ### This is what we take as our reference position.
+headatom = 1 ### This is what we take as our reference position (x,y,z).
 startframe = 1000
 
 outputMSD = "MSD.xy"

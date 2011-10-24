@@ -91,7 +91,7 @@ def selectatomsforanalysis(bilayernormalv, intstartn, intendn, molarray, molecul
 				for j in range(3):
 					Sijarr[atom][i][j]+= computeSij(bilayernormalv, i, j, C_n_m1, C_n, C_n_p1);
 
-			count+=1
+		count+=1
 	return count
 		
 def modulus(atom, atomspermol):
@@ -128,6 +128,7 @@ def computetailordering(bilayernormalv, trajectoryfile, molecules, atomspermol):
 					print "Finished frame: ", time
 					if (int(time) > 0):
 						maincount += selectatomsforanalysis(bilayernormalv, (cfg.start), (cfg.end), molarray, molecules, Sijarr)
+	print "Number of samples: ", maincount
 	Sijarr = Sijarr/maincount
 	f.close()
 	return Sijarr
@@ -154,7 +155,7 @@ def outputcombined(prefactor, Sijarr, startint, endint, filename):
 	return 0
 
 def main():
-	Sijarr = computetailordering((cfg.bilayernormal), cfg.inputtraj, 128, 14)
+	Sijarr = computetailordering((cfg.bilayernormal), cfg.inputtraj, (cfg.nummols), (cfg.atomspermol))
 	outputcomponents(Sijarr, -2.0, 0, 0, (cfg.start), (cfg.end), (cfg.output2Sxx))
 	outputcomponents(Sijarr,  1.0, 2, 2, (cfg.start), (cfg.end), (cfg.outputSzz))
 	outputcombined(1.0, Sijarr, (cfg.start), (cfg.end), (cfg.outputScd))
