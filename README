@@ -1,5 +1,5 @@
 ####################################################################################################
-###   SmartAnalyzer for LAMMPS :: Tail Order Analysis (Scd) and Mean Squared Displacement        ### 
+###   SmartAnalyzer for LAMMPS :: Tail Order Analysis (Scd) and Mean Squared Displacement (MSD)  ### 
 ###                                                      					 ###
 ###								                                 ###
 ###   Funding gratefully provided by Unilever plc and University of Southampton.                 ###
@@ -16,8 +16,8 @@ What you need to run
 1. A python interpreter (python.org) and a copy of LAMMPS 
 (LAMMPS Molecular Dynamics Simulator: http://lammps.sandia.gov/) 
 
-2. A suitable LAMMPS trajectory created with the following columns: <id type mol x y z ... ...>, 
-only positional information is only used in both routines.
+2. A suitable LAMMPS trajectory (dumplong.trj) created with the following columns: 
+<id type mol x y z ... ...>. Only positional information is only used in both routines.
 
 
 File structure
@@ -27,10 +27,10 @@ File structure
 |_________________________|_________________________________________________________________________|
 |cfg.py                   |Initial setup and configuration files. Here you will see all the input   |
 |                         |and output files that are employed, divided into two sections: MSD and   |
-|                         |SCD. Specify beads, reference beads, molecule ranges and timescales      |
+|                         |SCD. Specify beads, reference beads, molecule ranges and timescales.     |
 |_________________________|_________________________________________________________________________|
 |tailordering.py          |Performs analysis of tail parameters. Generates output files Szz, 2Sxx   |
-|                         |and Scp                                                                  |
+|                         |and Scp and mScd (-Scd).                                                 |
 |_________________________|_________________________________________________________________________|
 |msd.py                   |Compute mean squared displacement of systems in 2D given an initial time |
 |                         |start value.                                                             |
@@ -40,7 +40,7 @@ File structure
 |<Generated files>        |                                                                         |
 |_________________________|_________________________________________________________________________|
 |See cfg.py               |Filenames and their preferences are better shown in the cfg file. Files  |
-|                         |will appear in the working directory of the system.                      |
+|                         |will appear in the working directory of the folder.                      |
 |_________________________|_________________________________________________________________________|
 
 
